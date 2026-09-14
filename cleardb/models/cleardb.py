@@ -3,7 +3,7 @@ import time
 import random
 import psycopg2
 from odoo import tools
-from odoo import registry
+from odoo.modules.registry import Registry
 import os
 from odoo import _, api, models
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
@@ -271,7 +271,7 @@ class ClearDB(models.AbstractModel):
                                     break
                             cr.commit()
 
-                cr = registry(self.env.cr.dbname).cursor()
+                cr = Registry(self.env.cr.dbname).cursor()
                 t = threading.Thread(target=work, args=(cr, batch, i))
                 t.start()
                 threads.append(t)
